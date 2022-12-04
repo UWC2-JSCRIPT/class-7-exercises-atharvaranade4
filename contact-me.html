@@ -2,9 +2,73 @@
 <html>
   <head>
     <title>Contact Me</title>
+    <link rel="stylesheet" href="contact-me.css">
   </head>
 
   <body>
-    <!-- TODO -->
+    <div class="container">
+      <h1>Contact Me</h1>
+
+      <form id="connect-form" action="">
+
+        <!-- Name -->
+        <label for="first-name">Name</label>
+        <input
+          id="first-name"
+          type="text"            
+        />
+        <br>
+
+        <!-- Email -->
+        <label for="email">eMail</label> 
+        <input 
+        type="email" 
+        id="email" name="email">
+        <br>
+
+        <!-- Reason for contacting --> 
+        <label for="contactReason">Reason for contacting</label>
+        <select name="contactReason" id="contactReason">
+          <option selected="selected" disabled>
+            Choose one
+          </option>
+          <option value="Job">Job Opportunity</option>
+          <option value="Code">Talk Code</option>
+        </select>
+        <br>
+
+        <!-- Job Opportunity Hidden --> 
+        <div class="jobOpportunity hidden">
+          <label for="title">Job title: </label> <input type="text" id="title"> <br>
+          <label for="website"></label>Company Website: <input type="email" id="website">
+        </div>
+        <br>
+
+        <!-- Talk Code Hidden --> 
+        <div class="talkCode hidden">
+          <label for="language"></label>Coding Language: <input type="text" id="language">
+          </select>
+        </div>
+        <br>
+
+        <label for="message">Message:</label>
+        <br>
+
+        <textarea 
+          name="message" 
+          id="message" 
+          cols="40" 
+          rows="5">
+        </textarea>
+        <br>
+
+        <!-- Submit --> 
+        <input id = 'submit' type="submit" value="Submit" />
+        <br>
+
+      </form>
+    </div>
+
+    <script src="contact-me.js"></script>
   </body>
 </html>
