@@ -8,10 +8,11 @@
     max-width: 20rem
 }
 
-input:valid{
+input:valid, select:valid{
     border: 1px solid blue
 }
 
-input:invalid{
+input:invalid, select:invalid{
     border: 1px solid red
 }
+

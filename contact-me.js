@@ -32,14 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let NameIsValid;
     let websiteIsValid;
-    let jobTitleIsValid
-    let langCodeIsNotValid;
+    let jobTitleIsValid;
+    let langCodeIsValid = false;
     
 	Name.addEventListener('input', () => {
         Name.setCustomValidity("")
         let NameIsValid = true
 		NameIsValid = Name.value.length >= 3
-        console.log(Name.value)
         console.log(NameIsValid)
 		if(!NameIsValid) {
             Name.classList.add('invalid')
@@ -53,9 +52,10 @@ document.addEventListener('DOMContentLoaded', function () {
     eMail.addEventListener("input", () => {
         eMail.setCustomValidity("")
 		emailIsValid = eMail.value.length === 0 || emailRegExp.test(eMail.value)
+        console.log(emailIsValid)
 		if(!emailIsValid) {
 			eMail.classList.add('invalid')
-			eMail.setCustomValidity("Please use atleast 3 characters")
+			eMail.setCustomValidity("Please enter valid email")
             eMail.reportValidity()	
 		} else {
 			eMail.classList.remove('invalid')
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		jobTitleIsValid = jobTitle.value.length > 0
 		if(!jobTitleIsValid) {
 			jobTitle.classList.add('invalid')
-			jobTitle.setCustomValidity("Please use atleast 3 characters")
+			jobTitle.setCustomValidity("Please enter a job title")
             jobTitle.reportValidity()	
 		} else {
 			jobTitle.classList.remove('invalid')
@@ -79,33 +79,36 @@ document.addEventListener('DOMContentLoaded', function () {
 		websiteIsValid = website.value.length > 0 || websiteRegExp.test(website.value)
 		if(!websiteIsValid) {
 			website.classList.add('invalid')
-			website.setCustomValidity("Please use atleast 3 characters")
+			website.setCustomValidity("Please enter valid website")
             website.reportValidity()	
 		} else {
 			website.classList.remove('invalid')
 		}
 	})
+    
+    // Check if coding language is selected
+    langCode.setCustomValidity("Please select a language")
+    langCode.reportValidity()
+    langCode.classList.add('invalid')
 
     langCode.addEventListener("input", () => {
         langCode.setCustomValidity("")
-		langCodeIsNotValid = langCode.value == 'Code'
         console.log(langCode.value)
-		if(langCodeIsNotValid) {
-			langCode.classList.add('invalid')
-			langCode.setCustomValidity("Please use atleast 3 characters")
-            langCode.reportValidity()	
-		} else {
-			langCode.classList.remove('invalid')
-		}
+        langCode.classList.remove('invalid')
+        langCodeIsValid = true
 	})
-
+    
     form.addEventListener("submit", (event) => {
-        if(!NameIsValid || !emailIsValid || !websiteIsValid || !jobTitleIsValid) {
-			console.log('Bad input')
-            event.preventDefault()
-		} else {
-            console.log('Form successfully submitted!')
-		}		
-	})
+        let formNotValid = !NameIsValid || !emailIsValid
+        let jobValid = reasonSelect.value == "Job" && !(websiteIsValid || !jobTitleIsValid) // check validity only if Job-opportunity option is selected
+        let langcodeValid = reasonSelect.value == "code" && !langCodeIsValid // check validity only if talk-code option is selected
 
+        if (formNotValid || !jobValid || !langcodeValid) { 
+            console.log('Bad input')
+            event.preventDefault()
+        }
+        else {
+            console.log('Form successfully submitted!')
+        }		
+    })
 })
