@@ -5,9 +5,12 @@ document.addEventListener("DOMContentLoaded", function(){
     const lastName = document.getElementById("last-name")
     const email = document.querySelector('#email')
     const form = document.getElementById("connect-form")
-    // console.log(firstName, lastName, email, form)
-    let currentElementIsValid
-	let emailIsValid
+  
+	let allValid = true;
+	let emailIsValid = false;
+	let currentElementIsValid = false;
+
+	let emailRegExp = new RegExp(/\w+@\w+\.\w+/)
 
     function checkValidation(e){
 		let currentElement = e.target
@@ -32,19 +35,22 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     email.addEventListener("input", () => {
-        let emailRegExp = /\w+@\w+\.\w+/
+        email.setCustomValidity("")
 		emailIsValid = email.value.length === 0 || emailRegExp.test(email.value)
 		if(!emailIsValid) {
 			email.classList.add('invalid')
 			email.setCustomValidity("Please enter valid email")
-            email.reportValidity()
+            email.reportValidity()	
 		} else {
 			email.classList.remove('invalid')
 		}
 	})
 
+	
     form.addEventListener("submit", (event) => {
-        if(!NameIsValid || !emailIsValid || !websiteIsValid || !jobTitleIsValid) {
+		allValid = currentElementIsValid && emailIsValid
+		console.log(allValid)
+        if(!allValid) {
 			console.log('Bad input')
             event.preventDefault()
 		} else {

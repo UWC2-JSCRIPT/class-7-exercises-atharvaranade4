@@ -21,44 +21,46 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     const Name = document.getElementById('name')
-    const eMail = document.getElementById('email')
-    const form = document.getElementById('connect-form')
     const website = document.getElementById('website')
-    const langCode = document.getElementById('langCode')
+    const eMail = document.getElementById('email')
     const jobTitle = document.getElementById('title')
-
-    let emailRegExp = /\w+@\w+\.\w+/
-    let websiteRegExp = /https?\:\/\/.+\..+/
-
+    const langCode = document.getElementById('langCode')
+    const form = document.getElementById('connect-form')
+    
+    let emailRegExp = new RegExp(/\w+@\w+\.\w+/)
+    let websiteRegExp = new RegExp(/https?\:\/\/.+\..+/)
+    
+    let allValid = true
     let NameIsValid;
+    let emailIsValid
+
     let websiteIsValid;
     let jobTitleIsValid;
-    let langCodeIsValid = false;
+    let langCodeIsValid;
     
 	Name.addEventListener('input', () => {
         Name.setCustomValidity("")
-        let NameIsValid = true
 		NameIsValid = Name.value.length >= 3
-        console.log(NameIsValid)
 		if(!NameIsValid) {
             Name.classList.add('invalid')
             Name.setCustomValidity("Please use atleast 3 characters")
             Name.reportValidity()			
 		} else{
             Name.classList.remove('invalid')
+            console.log(`Name: ${NameIsValid}`)
 		}
 	})
 
     eMail.addEventListener("input", () => {
-        eMail.setCustomValidity("")
+        eMail.setCustomValidity("")        
 		emailIsValid = eMail.value.length === 0 || emailRegExp.test(eMail.value)
-        console.log(emailIsValid)
 		if(!emailIsValid) {
-			eMail.classList.add('invalid')
+            eMail.classList.add('invalid')
 			eMail.setCustomValidity("Please enter valid email")
             eMail.reportValidity()	
 		} else {
-			eMail.classList.remove('invalid')
+            eMail.classList.remove('invalid')
+            console.log(`email: ${emailIsValid}`)
 		}
 	})
     
@@ -72,8 +74,10 @@ document.addEventListener('DOMContentLoaded', function () {
             jobTitle.reportValidity()	
 		} else {
 			jobTitle.classList.remove('invalid')
+            console.log(`Job: ${jobTitleIsValid}`)
 		}
 	})
+
     website.addEventListener("input", () => {
         website.setCustomValidity("")
 		websiteIsValid = website.value.length > 0 || websiteRegExp.test(website.value)
@@ -83,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
             website.reportValidity()	
 		} else {
 			website.classList.remove('invalid')
+            console.log(`Website: ${websiteIsValid}`)
 		}
 	})
     
@@ -93,17 +98,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     langCode.addEventListener("input", () => {
         langCode.setCustomValidity("")
-        console.log(langCode.value)
         langCode.classList.remove('invalid')
         langCodeIsValid = true
+        console.log(`LangCode: ${langCodeIsValid}`)
 	})
     
     form.addEventListener("submit", (event) => {
-        let formNotValid = !NameIsValid || !emailIsValid
-        let jobValid = reasonSelect.value == "Job" && !(websiteIsValid || !jobTitleIsValid) // check validity only if Job-opportunity option is selected
-        let langcodeValid = reasonSelect.value == "code" && !langCodeIsValid // check validity only if talk-code option is selected
+        let websiteValid = reasonSelect.value == "Job" && websiteIsValid // check validity only if Job-opportunity option is selected
+        let jobValid = reasonSelect.value == "Job" && jobTitleIsValid      
+        let langcodeValid = reasonSelect.value == "Code" && langCodeIsValid // check validity only if talk-code option is selected
 
-        if (formNotValid || !jobValid || !langcodeValid) { 
+        dropDownValid = websiteValid || jobValid || langcodeValid
+
+        let allValid = NameIsValid && emailIsValid && dropDownValid
+
+        if (!allValid) { 
             console.log('Bad input')
             event.preventDefault()
         }
