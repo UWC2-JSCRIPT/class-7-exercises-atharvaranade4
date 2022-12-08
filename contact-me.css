@@ -1,0 +1,18 @@
+.hidden {
+    display: none;
+}
+
+#connect-form{
+    display: flex;
+    flex-direction:column ;
+    max-width: 20rem
+}
+
+input:valid, select:valid{
+    border: 1px solid blue
+}
+
+input:invalid, select:invalid{
+    border: 1px solid red
+}
+
